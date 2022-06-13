@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from inspect import _void
 from re import L
 from sre_constants import FAILURE
 from tkinter.tix import Tree
@@ -145,6 +146,11 @@ class URDFTree:
         children_urdfs = [(tree.connect(), conn) for tree, conn in self.children]
         return general_urdf_append(self.urdf, children_urdfs, use_name_map=False)
 
+    def connect_and_write(self, file: str):
+        self.connect().write(file)
+
+def urdf_append_and_write(file: str, base_urdf: URDFObj, children: List[Tuple[URDFObj, URDFConn]]):
+    urdf_append(base_urdf, children).write(file)
 
 if __name__ == "__main__":
     num_extenders = 50
