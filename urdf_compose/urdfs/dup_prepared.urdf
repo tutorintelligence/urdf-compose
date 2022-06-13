@@ -1,0 +1,47 @@
+<robot name="materials">  
+
+  <material name="blue(1)">    <color rgba="0 0 0.8 1" />  </material>  <material name="white(1)">    <color rgba="1 1 1 1" /> </material>
+
+
+  <link name="base_link(1)">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.2" />
+      </geometry>
+      <material name="blue(1)" />
+    </visual>
+  </link>
+
+  <link name="right_leg(1)">
+    <visual>
+      <geometry>
+        <box size="0.6 0.1 0.2" />
+      </geometry>
+      <origin rpy="0 1.57075 0" xyz="0 0 -0.3" />
+      <material name="white(1)" />
+    </visual>
+  </link>
+
+  <joint name="base_to_right_leg(1)" type="fixed">
+    <parent link="base_link(1)" />
+    <child link="right_leg(1)" />
+    <origin xyz="0 -0.22 0.25" />
+  </joint>
+
+  <link name="left_leg(1)">
+    <visual>
+      <geometry>
+        <box size="0.6 0.1 0.2" />
+      </geometry>
+      <origin rpy="0 1.57075 0" xyz="0 0 -0.3" />
+      <material name="white(1)" />
+    </visual>
+  </link>
+
+  <joint name="base_to_left_leg(1)" type="fixed">
+    <parent link="base_link(1)" />
+    <child link="left_leg(1)" />
+    <origin xyz="0 0.22 0.25" />
+  </joint>
+
+</robot>
