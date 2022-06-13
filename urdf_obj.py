@@ -8,3 +8,6 @@ class URDFObj:
     def __init__(self, path: str):
         self.tree = ET.parse(path)
         self.root = self.tree.getroot()
+
+    def write(self, dest: str):
+        self.tree.write(dest, xml_declaration="<?xml version=\"1.0\"?>")
