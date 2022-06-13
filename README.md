@@ -10,3 +10,4 @@ Implemented:
 - specified joint has no parent link
 
 Unimplemented:
+- during URDFTree.connect and urdf_append, the connections are indeed pointing to the correct urdf
