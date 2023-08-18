@@ -1,0 +1,33 @@
+name: CI
+on:
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  SETUPTOOLS_USE_DISTUTILS: "stdlib"
+
+jobs:
+  quality:
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.2.2
+      - name: Install packages
+        run: |
+          sudo apt-get install liburdfdom-tools
+          poetry install
+      - name: Style Checks
+        run: |
+          poetry run style --check
+      - name: Test with pytest
+        run: |
+          poetry run test
