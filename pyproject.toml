@@ -2,9 +2,11 @@
 name = "urdf_compose"
 version = "1.0.0"
 description = "Utilities for working with URDFs"
-authors = ["Zev Minsky-Primus <zev@tutorintelligence.com>",
+authors = [
+    "Zev Minsky-Primus <zev@tutorintelligence.com>",
     "Josh Fishman <joshf@tutorintelligence.com>",
-    "Dani Lerner <dani.lerner@tutorintelligence.com>",]
+    "Dani Lerner <dani.lerner@tutorintelligence.com>",
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -24,7 +26,7 @@ flake8-type-checking = "^2.3.0"
 isort = "^5.9.1"
 pytest = "^7.2.1"
 pre-commit = "^2.13.0"
-tutor-flake = {git = "https://github.com/tutorintelligence/tutor_flake.git", rev = "v0.17.0"}
+tutor-flake = { git = "https://github.com/tutorintelligence/tutor_flake.git", rev = "v0.17.0" }
 autoflake = "^2.2"
 
 
@@ -43,10 +45,13 @@ exclude = "protocols/generated_python"
 target-version = ["py310", "py311"]
 
 [tool.pytest.ini_options]
-filterwarnings = [
-    "error"
-]
+filterwarnings = ["error"]
 
 [tool.isort]
 profile = "black"
 append_only = true
+
+[tool.semantic_release]
+version_variables = ["adam_modbus/__init__.py:__version__"]
+version_toml = ["pyproject.toml:tool.poetry.version"]
+build_command = "pip install poetry && poetry build"
