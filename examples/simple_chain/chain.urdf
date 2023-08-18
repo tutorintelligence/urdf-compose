@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot name="rod">
+    <link name="INPUT-rod">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="INPUT-rod" />
+        <child link="CONNECTED:OUTPUT-rod" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(8)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod" />
+    <child link="CONNECTED:INPUT-rod(8)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(8)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(8)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(9)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(8)" />
+        <child link="CONNECTED:OUTPUT-rod(8)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(7)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(8)" />
+    <child link="CONNECTED:INPUT-rod(7)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(7)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(7)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(8)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(7)" />
+        <child link="CONNECTED:OUTPUT-rod(7)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(6)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(7)" />
+    <child link="CONNECTED:INPUT-rod(6)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(6)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(6)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(7)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(6)" />
+        <child link="CONNECTED:OUTPUT-rod(6)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(5)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(6)" />
+    <child link="CONNECTED:INPUT-rod(5)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(5)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(5)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(6)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(5)" />
+        <child link="CONNECTED:OUTPUT-rod(5)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(4)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(5)" />
+    <child link="CONNECTED:INPUT-rod(4)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(4)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(4)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(5)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(4)" />
+        <child link="CONNECTED:OUTPUT-rod(4)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(3)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(4)" />
+    <child link="CONNECTED:INPUT-rod(3)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(3)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(3)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(4)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(3)" />
+        <child link="CONNECTED:OUTPUT-rod(3)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(2)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(3)" />
+    <child link="CONNECTED:INPUT-rod(2)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(2)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(2)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(3)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(2)" />
+        <child link="CONNECTED:OUTPUT-rod(2)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION(1)" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(2)" />
+    <child link="CONNECTED:INPUT-rod(1)" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod(1)">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="CONNECTED:OUTPUT-rod(1)"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(2)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod(1)" />
+        <child link="CONNECTED:OUTPUT-rod(1)" />
+        <axis xyz="0 0 0" />
+    </joint>
+<joint name="GENERATED_CONNECTION" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="CONNECTED:OUTPUT-rod(1)" />
+    <child link="CONNECTED:INPUT-rod" />
+    <axis xyz="0 0 0" />
+</joint><link name="CONNECTED:INPUT-rod">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="OUTPUT-rod"><inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0" />
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial></link>
+    <joint name="joint(1)" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="CONNECTED:INPUT-rod" />
+        <child link="OUTPUT-rod" />
+        <axis xyz="0 0 0" />
+    </joint>
+</robot>

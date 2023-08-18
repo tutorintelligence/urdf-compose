@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "urdf_compose"
+version = "1.0.0"
+description = "Utilities for working with URDFs"
+authors = ["Zev Minsky-Primus <zev@tutorintelligence.com>",
+    "Josh Fishman <joshf@tutorintelligence.com>",
+    "Dani Lerner <dani.lerner@tutorintelligence.com>",]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scipy = "^1.7.0"
+numpy = "1.22.3"
+
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+mypy = "^1.0.0"
+flake8 = "^6.0.0"
+flake8-assert-msg = "^1.1.1"
+flake8-print = "^5.0.0"
+flake8-new-union-types = "^0.4.1"
+flake8-pep585 = "^0.1.6"
+flake8-type-checking = "^2.3.0"
+isort = "^5.9.1"
+pytest = "^7.2.1"
+pre-commit = "^2.13.0"
+tutor-flake = {git = "https://github.com/tutorintelligence/tutor_flake.git", rev = "v0.17.0"}
+autoflake = "^2.2"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+style = "poetry_scripts:style"
+test = "poetry_scripts:test"
+remove_unused = "poetry_scripts:remove_unused"
+
+[tool.black]
+line-length = 120
+exclude = "protocols/generated_python"
+target-version = ["py310", "py311"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error"
+]
+
+[tool.isort]
+profile = "black"
+append_only = true

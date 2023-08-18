@@ -1,0 +1,2 @@
+- top-level visible names, not defined at the top level [ex: named collision or visual elements of a link]
+-

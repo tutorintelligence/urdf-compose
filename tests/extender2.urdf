@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="vgc10_extender_stick">
+    <link name="INPUT-extender_stick-2">
+        <inertial>
+            <origin xyz="-1.14523654741374E-09 -2.79672501268441E-08 0.0228788479998501" rpy="0 0 0" />
+            <mass value="0.00550575237578726" />
+            <inertia ixx="1.33005016450342E-06" ixy="-5.64140714952826E-13" ixz="2.57434879543699E-14" iyy="1.33986100736006E-06" iyz="2.43974888325099E-13" izz="1.66618922257867E-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="../onrobot/meshes/VGC10/extender.obj" />
+            </geometry>
+            <material name="Silver" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="../onrobot/meshes/VGC10/extender.obj" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="OUTPUT-vgc10_extender_stick-2"/>
+    <joint name="vgc10_extender_stick_joint-2" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="INPUT-extender_stick-2" />
+        <child link="OUTPUT-vgc10_extender_stick-2" />
+        <axis xyz="0 0 0" />
+    </joint>
+</robot>
