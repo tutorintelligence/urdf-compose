@@ -52,6 +52,6 @@ profile = "black"
 append_only = true
 
 [tool.semantic_release]
-version_variables = ["adam_modbus/__init__.py:__version__"]
+version_variables = ["urdf_compose/__init__.py:__version__"]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 build_command = "pip install poetry && poetry build"
