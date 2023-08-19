@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "urdf_compose"
+name = "urdf-compose"
 version = "1.0.0"
 description = "Utilities for working with URDFs"
 authors = [
