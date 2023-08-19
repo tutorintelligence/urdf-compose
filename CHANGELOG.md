@@ -2,6 +2,13 @@
 
 
 
+## v0.2.1 (2023-08-19)
+
+### Fix
+
+* fix: add readme and license to pyproject.toml (#4) ([`a19f9ff`](https://github.com/tutorintelligence/urdf-compose/commit/a19f9ff4882722517b10190ac3e5b59c83c39bcd))
+
+
 ## v0.2.0 (2023-08-19)
 
 ### Feature
