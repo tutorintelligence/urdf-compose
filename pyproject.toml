@@ -7,6 +7,8 @@ authors = [
     "Josh Fishman <joshf@tutorintelligence.com>",
     "Dani Lerner <dani.lerner@tutorintelligence.com>",
 ]
+readme = "README.md"
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
