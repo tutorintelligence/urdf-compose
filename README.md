@@ -46,13 +46,19 @@ Notice the names of input and output links start with "INPUT" and "OUTPUT" respe
 Let's look at basic code for creating a new urdf composed of two rods:
 
 ```python
-from urdf_compose import ExplicitURDFObj, sequence,
+from urdf_compose import ExplicitURDFObj, sequence, raise_if_compose_error
 ROD_PATH = ...
 ROD_PAIR_PATH = ...
 # Create an object referencing the original file, and checks the urdf to make sure its valid
 extender_urdf = ExplicitURDFObj(ROD_PATH)
 # Basic construct for making a sequence of n urdfs, each connected to the previous
-composed_urdf = sequence(extender_urdf, extender_urdf)
+# raise_if_compose_error is required rather than raising automatically, so that you specify a
+#   directory to output debugging info. Debugging why your urdf compose isn't working may be
+#   difficult, so this is an important step to make it easier
+composed_urdf = raise_if_compose_error(
+  sequence(extender_urdf, extender_urdf), ROD_PAIR_PATH
+)
+
 write_and_check_urdf(composed_urdf, ROD_PAIR_PATH) # Checks the urdf is valid, and writes the urdf to the file
 ```
 
@@ -119,7 +125,8 @@ With these renames, one might want to know the new name of a link or joint. The 
 ```python
 extender_urdf1 = ExplicitURDFObj(ROD_PATH)
 extender_urdf2 = ExplicitURDFObj(ROD_PATH) # Note: we have two seperate objects. Reasoning is explained later.
-composed_urdf = sequence(extender_urdf1, extender_urdf2)
+# Here we don't pass a directory to save debugging output to. It is recommended to pass it, but if for whatever reason you desire not to, it is not necessary.
+composed_urdf = raise_if_compose_error(sequence(extender_urdf1, extender_urdf2))
 
 name_map = composed_urdf.name_map.collapse({extender_urdf2}) # Get an object that allows us to lookup new names for the given urdfs
 print(name_map.lookup(extender_urdf2, "joint")) # prints "joint(1)"
@@ -171,7 +178,6 @@ The following code shows how we can connect this urdf to two other rods:
 
 ```python
 V_ROD_PATH = ...
-SIMPLE_BRANCHED_CHAIN = ...
 
 rod_urdf1 = ExplicitURDFObj(ROD_PATH)
 rod_urdf2 = ExplicitURDFObj(ROD_PATH)
@@ -185,15 +191,21 @@ simple_branched_chain = branch(
         (rod_urdf2, URDFConn("sideways_output"))
     ]
 )
-write_and_check_urdf(simple_branched_chain, SIMPLE_BRANCHED_CHAIN)
 ```
 
 In addition, we can combine a branch and a sequence in order to attach a rod to the input of the v rod.
 
 ```python
+BRANCHED_CHAIN_OUTPUT = ...
+
 rod_urdf3 = ExplicitURDFObj(ROD_PATH)
-full_chain = sequence(
-    rod_urdf3,
-    simple_branched_chain
+full_chain = raise_if_compose_error(
+    sequence(
+        rod_urdf3,
+        simple_branched_chain
+    )
 )
+write_and_check_urdf(full_chain, BRANCHED_CHAIN_OUTPUT)
 ```
+
+Note that in the above example, from a typing perspective, simple_branched_chain may be a `URDFComposeError`. If it is, the `sequence` function will immediatly return that error. This pattern allows you to only call `raise_if_compose_error` when you actually need the urdf at the end.
