@@ -33,39 +33,13 @@ def general_urdf_append(
     return new_urdf
 
 
-zero_intertial_element = ET.fromstring(
-    """
-    <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0" />
-        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
-    </inertial>
-    """
-)
-
-
-def fix_urdf(urdf: URDFObj) -> None:
-    for link in urdf.tree.findall("link"):
-        if get_name(link) != "world" and link.find("inertial") is None:
-            link.append(copy.deepcopy(zero_intertial_element))
-
-
-# GenURDFTree: TypeAlias = "URDFTree | URDFObj"
-"""
-A URDFTree or a URDFObj. This is helpful as a type b/c many of the composition
-operations works both URDFTrees, and on URDFObjs.
-"""
-# TreeChild: TypeAlias = "GenURDFTree | tuple[GenURDFTree, URDFConn]"
-"""
-Either a regular GenURDFTree, or a GenURDFTree with an explciit URDFConn. A
-lone GenURDFTree with no URDFConn assumes use of default connection (where
-the default connection is starting with upper-case "INPUT" and "OUTPUT" rather
-than any link starting with lower-case "input" and "output")
-"""
 URDFObjOrError = URDFObj | URDFComposeError
 URDFObjChild: TypeAlias = URDFObjOrError | tuple[URDFObjOrError, URDFConn]
 """
-Like TreeChild except only for single URDFObjs
+Either a regular URDFObjOrError, or a URDFObjOrError with an explciit URDFConn. A
+lone URDFObjOrError with no URDFConn assumes use of default connection (where
+the default connection is starting with upper-case "INPUT" and "OUTPUT" rather
+than any link starting with lower-case "input" and "output")
 """
 
 
@@ -205,13 +179,13 @@ def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj |
         return branch(base, [(sequence(child0_urdf, *children[1:]), child0_conn)])
 
 
-def write_and_check_urdf(urdf: URDFObj, dest: Path, perform_fix: bool = True) -> CheckURDFFailure | None:
+def write_and_check_urdf(urdf: URDFObj, dest: Path) -> None:
     """
-    1. if "perform_fix" is true, call "fix_urdf"
-    2. write the urdf to given destination
-    3. check if the urdf is valid
+    1. write the urdf to given destination
+    2. check if the urdf is valid
+
+    Raises a CheckURDFFailure if check urdf fails
     """
-    if perform_fix:
-        fix_urdf(urdf)
     urdf.write_xml(dest)
-    return check_urdf(dest)
+    if (error := check_urdf(dest)) is not None:
+        raise error
