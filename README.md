@@ -47,8 +47,7 @@ ROD_PAIR_PATH = ...
 # Create an object referencing the original file, and checks the urdf to make sure its valid
 extender_urdf = ExplicitURDFObj(ROD_PATH)
 # Basic construct for making a sequence of n urdfs, each connected to the previous
-tree = sequence(extender_urdf, extender_urdf)
-composed_urdf = tree.connect() # Connects the urdf into a single object
+composed_urdf = sequence(extender_urdf, extender_urdf)
 write_and_check_urdf(composed_urdf, ROD_PAIR_PATH) # Checks the urdf is valid, and writes the urdf to the file
 ```
 
@@ -115,8 +114,7 @@ With these renames, one might want to know the new name of a link or joint. The 
 ```python
 extender_urdf1 = ExplicitURDFObj(ROD_PATH)
 extender_urdf2 = ExplicitURDFObj(ROD_PATH) # Note: we have two seperate objects. Reasoning is explained later.
-tree = sequence(extender_urdf1, extender_urdf2)
-composed_urdf = tree.connect()
+composed_urdf = sequence(extender_urdf1, extender_urdf2)
 
 name_map = composed_urdf.name_map.collapse({extender_urdf2}) # Get an object that allows us to lookup new names for the given urdfs
 print(name_map.lookup(extender_urdf2, "joint")) # prints "joint(1)"
@@ -126,8 +124,7 @@ Note that we have to create this object out of seperate urdf objects, even thoug
 
 ```python
 extender_urdf = ExplicitURDFObj(ROD_PATH)
-tree = sequence(extender_urdf, extender_urdf)
-composed_urdf = tree.connect()
+composed_urdf = sequence(extender_urdf, extender_urdf)
 
 name_map = composed_urdf.name_map.collapse_safe({extender_urdf2}) # Using "collapse_safe" so that it returns the error
 print(name_map) # prints a "RepeatedURDFError" object
@@ -183,8 +180,7 @@ simple_branched_chain = branch(
         (rod_urdf2, URDFConn("sideways_output"))
     ]
 )
-connected = simple_branched_chain.connect()
-write_and_check_urdf(connected, SIMPLE_BRANCHED_CHAIN)
+write_and_check_urdf(simple_branched_chain, SIMPLE_BRANCHED_CHAIN)
 ```
 
 In addition, we can combine a branch and a sequence in order to attach a rod to the input of the v rod.
@@ -199,7 +195,6 @@ full_chain = sequence(
 Note that in this example, simple_branched_chain is passed as the `branch` kwarg rather than another one of the children because the children must be `URDFObj`s, not `URDFTree`s. This allows us to ensure that rod_urdf3 will be connected to `v_rod_urdf`, not `rod_urdf` or `rod_urdf2`. If we wanted to connect the simple_branched_chain first, we could pass it as another child to sequence, but we would then not have the same guarantee about which urdf it connects to:
 
 ```python
-simple_branched_connected = simple_branched_chain.connect()
 full_chain = sequence(
     rod_urdf3,
     simple_branched_connected

@@ -2,7 +2,7 @@ import copy
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable
 from pathlib import Path
-from typing import TypeAlias
+from typing import TypeAlias, TypeVar
 
 from urdf_compose.composed_urdf import ComposedURDFObj, URDFConn
 from urdf_compose.connect import connect
@@ -137,15 +137,30 @@ def fix_urdf_obj_child(
 #         raise RuntimeError("Attempted to create branch with two of the same URDFs. This is an illegal operation.")
 #     return URDFTree(urdf, *[fix_tree_child(c) for c in children])
 
-
-def branch(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> ComposedURDFObj:
-    result = branch_safe(urdf, children)
-    if isinstance(result, URDFComposeError):
-        raise result
-    return result
+T = TypeVar("T")
 
 
-def branch_safe(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> ComposedURDFObj | URDFComposeError:
+def raise_if_compose_error(v: T | URDFComposeError, save_error_dir: Path | None = None) -> T:
+    """
+    Will raise if the value is a URDFComposeError, and will save debugging info if given
+    a `save_error_dir`
+
+    Otherwise, will return the value, indicating to typing it is not a URDFComposeError
+    """
+    if isinstance(v, URDFComposeError):
+        if save_error_dir is not None:
+            v.save_to(save_error_dir)
+        raise v
+    return v
+
+
+def branch(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> ComposedURDFObj | URDFComposeError:
+    """
+    Creates a composed urdf object where each of the children connects directly to the base urdf
+
+    Returns any errors encountered during composition, or if any of the inputs
+    have an error instead of a urdf object.
+    """
     fixed_children = [fix_urdf_obj_child(c) for c in children]
     real_children = []
     if isinstance(urdf, URDFComposeError):
@@ -173,22 +188,21 @@ def branch_safe(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> Compo
 
 
 def wrap_urdf_as_composed(urdf: URDFObj) -> ComposedURDFObj:
-    return branch(urdf, [])
+    return raise_if_compose_error(branch(urdf, []), None)
 
 
-def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj:
-    result = sequence_safe(base, *children)
-    if isinstance(result, URDFComposeError):
-        raise result
-    return result
+def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj | URDFComposeError:
+    """
+    Creates a composed urdf, where each urdf connects to the previous
 
-
-def sequence_safe(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj | URDFComposeError:
+    Returns any errors encountered during composition, or if any of the inputs
+    have an error instead of a urdf object.
+    """
     if len(children) == 0:
         return wrap_urdf_as_composed(base) if isinstance(base, URDFObj) else base
     else:
         child0_urdf, child0_conn = fix_urdf_obj_child(children[0])
-        return branch_safe(base, [(sequence_safe(child0_urdf, *children[1:]), child0_conn)])
+        return branch(base, [(sequence(child0_urdf, *children[1:]), child0_conn)])
 
 
 def write_and_check_urdf(urdf: URDFObj, dest: Path, perform_fix: bool = True) -> CheckURDFFailure | None:
