@@ -41,14 +41,21 @@ class TestURDFCompose:
         composed_urdf = sequence(*urdfs)
         composed_urdf.name_map.collapse_strict(set(urdfs))
 
-    def test_cant_branch_with_same_urdf(self) -> None:
+    def test_can_sequence_with_same_urdf(self) -> None:
         dir = Path(__file__).parent
         urdf_obj = ExplicitURDFObj(dir / "extender.urdf")
-        with pytest.raises(RuntimeError):
-            branch(
-                urdf_obj,
-                [urdf_obj],
-            )
+        sequence(
+            urdf_obj,
+            urdf_obj,
+        )
+
+    def test_can_branch_with_same_urdf(self) -> None:
+        dir = Path(__file__).parent
+        urdf_obj = ExplicitURDFObj(dir / "extender.urdf")
+        branch(
+            urdf_obj,
+            [urdf_obj],
+        )
 
     def test_can_branch_with_equivilant_urdfs(self) -> None:
         dir = Path(__file__).parent

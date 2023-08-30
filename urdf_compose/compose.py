@@ -153,11 +153,9 @@ def branch_safe(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> Compo
     for fixed_child in fixed_children:
         if isinstance(fixed_child[0], URDFComposeError):
             return fixed_child[0]
-        real_children.append(fixed_child)
-
-    children_urdf_objs = [urdf for urdf, _ in real_children]
-    if len(children_urdf_objs) != len(set(children_urdf_objs)):
-        raise RuntimeError("Attempted to create branch with two of the same URDFs. This is an illegal operation.")
+        # We do a branch here to create a unique composed urdf obj key for each child
+        # This stops name collisions if a user inputs two of the same urdfs to branch
+        real_children.append((wrap_urdf_as_composed(fixed_child[0]), fixed_child[1]))
 
     children_urdfs = list[tuple[URDFObj, URDFDefConn]]()
     for obj, conn in real_children:
@@ -174,6 +172,10 @@ def branch_safe(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> Compo
     return general_urdf_append(urdf, children_urdfs, use_name_map=False)
 
 
+def wrap_urdf_as_composed(urdf: URDFObj) -> ComposedURDFObj:
+    return branch(urdf, [])
+
+
 def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj:
     result = sequence_safe(base, *children)
     if isinstance(result, URDFComposeError):
@@ -183,34 +185,10 @@ def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj:
 
 def sequence_safe(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj | URDFComposeError:
     if len(children) == 0:
-        return branch_safe(base, [])
+        return wrap_urdf_as_composed(base) if isinstance(base, URDFObj) else base
     else:
         child0_urdf, child0_conn = fix_urdf_obj_child(children[0])
         return branch_safe(base, [(sequence_safe(child0_urdf, *children[1:]), child0_conn)])
-
-
-#     """
-#     Creates a URDFTree where each urdf is connected to the previous once. All the urdfs aside
-#     from the "branch" argument must be single urdfs. The branch may be a Tree.
-#     """
-#     fixed_children = [fix_urdf_obj_child(c) for c in children]
-#     empty = len(fixed_children) == 0
-#     if empty:
-#         last = base
-#     else:
-#         last = fixed_children[-1][0]
-
-#     if branch is None:
-#         tree = URDFTree(last)
-#     else:
-#         fixed_branch = fix_tree_child(branch)
-#         urdf = fixed_branch[0]
-#         tree = URDFTree(urdf) if isinstance(urdf, URDFObj) else urdf
-#         tree = URDFTree(last, (tree, fixed_branch[1]))
-
-#     for i in reversed(range(len(fixed_children))):
-#         tree = URDFTree(base if i == 0 else fixed_children[i - 1][0], (tree, fixed_children[i][1]))
-#     return tree
 
 
 def write_and_check_urdf(urdf: URDFObj, dest: Path, perform_fix: bool = True) -> CheckURDFFailure | None:
