@@ -1,3 +1,4 @@
+from typing import TypeVar
 import xml.etree.ElementTree as ET
 from collections.abc import Iterator
 
@@ -48,3 +49,16 @@ def iter_model_attribute(urdf: URDFObj, element: str, attribute: str) -> Iterato
         val = el.attrib.get(attribute)
         if val is not None:
             yield el, val
+
+
+T = TypeVar("T")
+S = TypeVar("S")
+
+
+def first_if_isinstance(l: list[T | S], cls: type[T]) -> list[S] | T:
+    new_l = list[S]()
+    for item in l:
+        if isinstance(item, cls):
+            return item
+        new_l.append(item)  # type: ignore [arg-type]
+    return new_l

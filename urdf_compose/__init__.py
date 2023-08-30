@@ -1,8 +1,5 @@
 from urdf_compose.compose import (
-    GenURDFTree,
-    TreeChild,
     URDFObjChild,
-    URDFTree,
     branch,
     sequence,
     write_and_check_urdf,
@@ -22,14 +19,11 @@ __version__ = "0.2.1"
 __all__ = [
     "URDFObj",
     "ExplicitURDFObj",
-    "URDFTree",
-    "GenURDFTree",
     "URDFConn",
     "branch",
     "sequence",
     "ComposedURDFObj",
     "ComposedURDFNameMap",
-    "TreeChild",
     "URDFObjChild",
     "URDFComposeError",
     "RepeatedURDFError",

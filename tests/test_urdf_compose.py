@@ -16,11 +16,10 @@ class TestURDFCompose:
         except BaseException:
             pass
         extender_urdf = ExplicitURDFObj(dir / "extender.urdf")
-        tree = sequence(
+        connected_urdf = sequence(
             ExplicitURDFObj(dir / "extender.urdf"),
             *[(extender_urdf, URDFConn("vgc10_extender_stick")) for _ in range(num_extenders - 1)],
         )
-        connected_urdf = tree.connect()
         assert write_and_check_urdf(connected_urdf, output) is None
 
     def test_urdf2(self) -> None:
@@ -29,8 +28,7 @@ class TestURDFCompose:
             ExplicitURDFObj(dir / "extender.urdf"),
             ExplicitURDFObj(dir / "extender.urdf"),
         ]
-        tree = sequence(*urdfs)
-        composed_urdf = tree.connect()
+        composed_urdf = sequence(*urdfs)
         composed_urdf.name_map.collapse_strict(set(urdfs))
 
     def test_alternating_urdf(self) -> None:
@@ -40,8 +38,7 @@ class TestURDFCompose:
             ExplicitURDFObj(dir / "extender2.urdf"),
             ExplicitURDFObj(dir / "extender.urdf"),
         ]
-        tree = sequence(*urdfs)
-        composed_urdf = tree.connect()
+        composed_urdf = sequence(*urdfs)
         composed_urdf.name_map.collapse_strict(set(urdfs))
 
     def test_cant_branch_with_same_urdf(self) -> None:
@@ -55,8 +52,7 @@ class TestURDFCompose:
 
     def test_can_branch_with_equivilant_urdfs(self) -> None:
         dir = Path(__file__).parent
-        b = branch(
+        branch(
             ExplicitURDFObj(dir / "extender.urdf"),
             [ExplicitURDFObj(dir / "extender.urdf")],
         )
-        b.connect()

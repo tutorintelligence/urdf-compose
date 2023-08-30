@@ -1,6 +1,6 @@
 import copy
 import xml.etree.ElementTree as ET
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable
 from pathlib import Path
 from typing import TypeAlias
 
@@ -50,120 +50,167 @@ def fix_urdf(urdf: URDFObj) -> None:
             link.append(copy.deepcopy(zero_intertial_element))
 
 
-GenURDFTree: TypeAlias = "URDFTree | URDFObj"
+# GenURDFTree: TypeAlias = "URDFTree | URDFObj"
 """
 A URDFTree or a URDFObj. This is helpful as a type b/c many of the composition
 operations works both URDFTrees, and on URDFObjs.
 """
-TreeChild: TypeAlias = "GenURDFTree | tuple[GenURDFTree, URDFConn]"
+# TreeChild: TypeAlias = "GenURDFTree | tuple[GenURDFTree, URDFConn]"
 """
 Either a regular GenURDFTree, or a GenURDFTree with an explciit URDFConn. A
 lone GenURDFTree with no URDFConn assumes use of default connection (where
 the default connection is starting with upper-case "INPUT" and "OUTPUT" rather
 than any link starting with lower-case "input" and "output")
 """
-URDFObjChild: TypeAlias = URDFObj | tuple[URDFObj, URDFConn]
+URDFObjOrError = URDFObj | URDFComposeError
+URDFObjChild: TypeAlias = URDFObjOrError | tuple[URDFObjOrError, URDFConn]
 """
 Like TreeChild except only for single URDFObjs
 """
 
 
 # A visualization tool for URDFTree would be super cool
-class URDFTree:
-    """
-    Represents a web of URDFObjects that can be connected
-    """
+# class URDFTree:
+#     """
+#     Represents a web of URDFObjects that can be connected
+#     """
 
-    def __init__(
-        self,
-        urdf: URDFObj,
-        *children: tuple[GenURDFTree, URDFConn],
-    ):
-        self.urdf = urdf
-        self.children = children
+#     def __init__(
+#         self,
+#         urdf: URDFObj,
+#         *children: tuple[GenURDFTree, URDFConn],
+#     ):
+#         self.urdf = urdf
+#         self.children = children
 
-    def connect_safe(self) -> ComposedURDFObj | URDFComposeError:
-        children_urdfs = list[tuple[URDFObj, URDFDefConn]]()
-        for tree, conn in self.children:
-            obj = tree if isinstance(tree, URDFObj) else tree.connect_safe()
-            if not isinstance(obj, URDFObj):
-                return obj
-            def_conn = resolve_conn(
-                self.urdf,
-                tree if isinstance(tree, URDFObj) else tree.urdf,
-                conn,
-            )
-            if isinstance(def_conn, URDFComposeError):
-                return def_conn
-            children_urdfs.append((obj, def_conn))
-        return general_urdf_append(self.urdf, children_urdfs, use_name_map=False)
+#     def connect_safe(self) -> ComposedURDFObj | URDFComposeError:
+#         children_urdfs = list[tuple[URDFObj, URDFDefConn]]()
+#         for tree, conn in self.children:
+#             obj = tree if isinstance(tree, URDFObj) else tree.connect_safe()
+#             if not isinstance(obj, URDFObj):
+#                 return obj
+#             def_conn = resolve_conn(
+#                 self.urdf,
+#                 tree if isinstance(tree, URDFObj) else tree.urdf,
+#                 conn,
+#             )
+#             if isinstance(def_conn, URDFComposeError):
+#                 return def_conn
+#             children_urdfs.append((obj, def_conn))
+#         return general_urdf_append(self.urdf, children_urdfs, use_name_map=False)
 
-    def connect(self, log_errored_urdf_dir: Path | None = None) -> ComposedURDFObj:
-        result = self.connect_safe()
-        if isinstance(result, URDFComposeError):
-            if log_errored_urdf_dir is not None:
-                result.save_to(log_errored_urdf_dir)
-            raise result
-        return result
+#     def connect(self, log_errored_urdf_dir: Path | None = None) -> ComposedURDFObj:
+#         result = self.connect_safe()
+#         if isinstance(result, URDFComposeError):
+#             if log_errored_urdf_dir is not None:
+#                 result.save_to(log_errored_urdf_dir)
+#             raise result
+#         return result
 
-    def __iter__(self) -> Iterator[URDFObj]:
-        yield self.urdf
-        for child, _ in self.children:
-            if isinstance(child, URDFObj):
-                yield child
-            else:
-                for urdf in child:
-                    yield urdf
-
-
-def fix_tree_child(c: TreeChild) -> tuple[GenURDFTree, URDFConn]:
-    return c if isinstance(c, tuple) else (c, URDFConn())
+#     def __iter__(self) -> Iterator[URDFObj]:
+#         yield self.urdf
+#         for child, _ in self.children:
+#             if isinstance(child, URDFObj):
+#                 yield child
+#             else:
+#                 for urdf in child:
+#                     yield urdf
 
 
 def fix_urdf_obj_child(
     c: URDFObjChild,
-) -> tuple[URDFObj, URDFConn]:
+) -> tuple[URDFObjOrError, URDFConn]:
     return c if isinstance(c, tuple) else (c, URDFConn())
 
 
-def branch(urdf: URDFObj, children: Iterable[TreeChild]) -> URDFTree:
-    """
-    Creates a URDFTree with urdf as the base, and where each value in children
-      is directly connected to urdf
+# def branch(urdf: URDFObj, children: Iterable[TreeChild]) -> URDFTree:
+#     """
+#     Creates a URDFTree with urdf as the base, and where each value in children
+#       is directly connected to urdf
 
-    Raises a runtime error if given two of the same urdfs.
-    """
-    children_trees_or_urdfs = [child[0] if isinstance(child, tuple) else child for child in children]
-    children_urdfs = [tree_or_urdf for tree_or_urdf in children_trees_or_urdfs if isinstance(tree_or_urdf, URDFObj)]
-    all_urdfs = [urdf] + children_urdfs
-    if len(all_urdfs) != len(set(all_urdfs)):
-        raise RuntimeError("Attempted to create branch with two of the same URDFs. This is an illegal operation.")
-    return URDFTree(urdf, *[fix_tree_child(c) for c in children])
+#     Raises a runtime error if given two of the same urdfs.
+#     """
+#     children_trees_or_urdfs = [child[0] if isinstance(child, tuple) else child for child in children]
+#     children_urdfs = [tree_or_urdf for tree_or_urdf in children_trees_or_urdfs if isinstance(tree_or_urdf, URDFObj)]
+#     all_urdfs = [urdf] + children_urdfs'
+#     if len(all_urdfs) != len(set(all_urdfs)):
+#         raise RuntimeError("Attempted to create branch with two of the same URDFs. This is an illegal operation.")
+#     return URDFTree(urdf, *[fix_tree_child(c) for c in children])
 
 
-def sequence(base: URDFObj, *children: URDFObjChild, branch: "TreeChild | None" = None) -> URDFTree:  # noqa: TC101
-    """
-    Creates a URDFTree where each urdf is connected to the previous once. All the urdfs aside
-    from the "branch" argument must be single urdfs. The branch may be a Tree.
-    """
+def branch(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> ComposedURDFObj:
+    result = branch_safe(urdf, children)
+    if isinstance(result, URDFComposeError):
+        raise result
+    return result
+
+
+def branch_safe(urdf: URDFObjOrError, children: Iterable[URDFObjChild]) -> ComposedURDFObj | URDFComposeError:
     fixed_children = [fix_urdf_obj_child(c) for c in children]
-    empty = len(fixed_children) == 0
-    if empty:
-        last = base
-    else:
-        last = fixed_children[-1][0]
+    real_children = []
+    if isinstance(urdf, URDFComposeError):
+        return urdf
+    for fixed_child in fixed_children:
+        if isinstance(fixed_child[0], URDFComposeError):
+            return fixed_child[0]
+        real_children.append(fixed_child)
 
-    if branch is None:
-        tree = URDFTree(last)
-    else:
-        fixed_branch = fix_tree_child(branch)
-        urdf = fixed_branch[0]
-        tree = URDFTree(urdf) if isinstance(urdf, URDFObj) else urdf
-        tree = URDFTree(last, (tree, fixed_branch[1]))
+    children_urdf_objs = [urdf for urdf, _ in real_children]
+    if len(children_urdf_objs) != len(set(children_urdf_objs)):
+        raise RuntimeError("Attempted to create branch with two of the same URDFs. This is an illegal operation.")
 
-    for i in reversed(range(len(fixed_children))):
-        tree = URDFTree(base if i == 0 else fixed_children[i - 1][0], (tree, fixed_children[i][1]))
-    return tree
+    children_urdfs = list[tuple[URDFObj, URDFDefConn]]()
+    for obj, conn in real_children:
+        if not isinstance(obj, URDFObj):
+            return obj
+        def_conn = resolve_conn(
+            urdf,
+            obj,
+            conn,
+        )
+        if isinstance(def_conn, URDFComposeError):
+            return def_conn
+        children_urdfs.append((obj, def_conn))
+    return general_urdf_append(urdf, children_urdfs, use_name_map=False)
+
+
+def sequence(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj:
+    result = sequence_safe(base, *children)
+    if isinstance(result, URDFComposeError):
+        raise result
+    return result
+
+
+def sequence_safe(base: URDFObjOrError, *children: URDFObjChild) -> ComposedURDFObj | URDFComposeError:
+    if len(children) == 0:
+        return branch_safe(base, [])
+    else:
+        child0_urdf, child0_conn = fix_urdf_obj_child(children[0])
+        return branch_safe(base, [(sequence_safe(child0_urdf, *children[1:]), child0_conn)])
+
+
+#     """
+#     Creates a URDFTree where each urdf is connected to the previous once. All the urdfs aside
+#     from the "branch" argument must be single urdfs. The branch may be a Tree.
+#     """
+#     fixed_children = [fix_urdf_obj_child(c) for c in children]
+#     empty = len(fixed_children) == 0
+#     if empty:
+#         last = base
+#     else:
+#         last = fixed_children[-1][0]
+
+#     if branch is None:
+#         tree = URDFTree(last)
+#     else:
+#         fixed_branch = fix_tree_child(branch)
+#         urdf = fixed_branch[0]
+#         tree = URDFTree(urdf) if isinstance(urdf, URDFObj) else urdf
+#         tree = URDFTree(last, (tree, fixed_branch[1]))
+
+#     for i in reversed(range(len(fixed_children))):
+#         tree = URDFTree(base if i == 0 else fixed_children[i - 1][0], (tree, fixed_children[i][1]))
+#     return tree
 
 
 def write_and_check_urdf(urdf: URDFObj, dest: Path, perform_fix: bool = True) -> CheckURDFFailure | None:
