@@ -6,6 +6,11 @@ Often, robotics codebases will need to be written to deal with a whole host of c
 
 This package provides another solution by allowing one to dynamically compose urdfs using Python code. That way, one only need to create a urdf per component, and doesn't have to do exponentially more work with more components.
 
+## Installation 
+
+Install with: 
+```pip install urdf-compose```
+
 ## Usage
 
 ### Simple Rod Example
@@ -189,14 +194,6 @@ In addition, we can combine a branch and a sequence in order to attach a rod to 
 rod_urdf3 = ExplicitURDFObj(ROD_PATH)
 full_chain = sequence(
     rod_urdf3,
-    branch=simple_branched_chain
-)
-```
-Note that in this example, simple_branched_chain is passed as the `branch` kwarg rather than another one of the children because the children must be `URDFObj`s, not `URDFTree`s. This allows us to ensure that rod_urdf3 will be connected to `v_rod_urdf`, not `rod_urdf` or `rod_urdf2`. If we wanted to connect the simple_branched_chain first, we could pass it as another child to sequence, but we would then not have the same guarantee about which urdf it connects to:
-
-```python
-full_chain = sequence(
-    rod_urdf3,
-    simple_branched_connected
+    simple_branched_chain
 )
 ```
