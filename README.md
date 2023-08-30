@@ -136,7 +136,7 @@ Note that we have to create this object out of seperate urdf objects, even thoug
 
 ```python
 extender_urdf = ExplicitURDFObj(ROD_PATH)
-composed_urdf = sequence(extender_urdf, extender_urdf)
+composed_urdf = raise_if_compose_error(sequence(extender_urdf, extender_urdf))
 
 name_map = composed_urdf.name_map.collapse_safe({extender_urdf2}) # Using "collapse_safe" so that it returns the error
 print(name_map) # prints a "RepeatedURDFError" object
