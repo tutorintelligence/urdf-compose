@@ -2,6 +2,13 @@
 
 
 
+## v0.3.2 (2023-08-31)
+
+### Fix
+
+* fix: handle str passed to explicit urdf obj (#8) ([`a09eef3`](https://github.com/tutorintelligence/urdf-compose/commit/a09eef330258550e3bb984bbf6fa56c5497cba8b))
+
+
 ## v0.3.1 (2023-08-31)
 
 ### Fix
