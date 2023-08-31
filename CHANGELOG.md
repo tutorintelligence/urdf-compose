@@ -2,6 +2,17 @@
 
 
 
+## v0.3.0 (2023-08-31)
+
+### Chore
+
+* chore: desc update (#6) ([`db10d71`](https://github.com/tutorintelligence/urdf-compose/commit/db10d71fd2a11d4427f4cabd442cd2274d79830e))
+
+### Feature
+
+* feat: remove urdf tree (#5) ([`615e1e9`](https://github.com/tutorintelligence/urdf-compose/commit/615e1e94485aa0bd2a9b2c0c8598d211fdb58b37))
+
+
 ## v0.2.1 (2023-08-19)
 
 ### Fix

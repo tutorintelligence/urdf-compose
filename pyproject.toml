@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "urdf-compose"
-version = "0.2.1"
-description = "Utilities for working with URDFs"
+version = "0.3.0"
+description = "Package for dynamically composing URDFs"
 authors = [
     "Zev Minsky-Primus <zev@tutorintelligence.com>",
     "Josh Fishman <joshf@tutorintelligence.com>",
