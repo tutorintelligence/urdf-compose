@@ -47,7 +47,31 @@ class CheckURDFFailure(Exception):
     pass
 
 
+_global_check_urdf_enabled = True
+
+
+def globally_disable_check_urdf() -> None:
+    """
+    If you can't install check_urdf, you can globally disable it here
+    If you do, the "check_urdf" will always just return None
+    """
+    global _global_check_urdf_enabled
+    _global_check_urdf_enabled = False
+
+
+def globally_enable_check_urdf() -> None:
+    """
+    check_urdf will default to be enabled, but if you disable it,
+    you can re-enable it here
+    """
+    global _global_check_urdf_enabled
+    _global_check_urdf_enabled = True
+
+
 def check_urdf(urdf_path: Path) -> CheckURDFFailure | None:
+    if not _global_check_urdf_enabled:
+        return None
+
     with subprocess.Popen(
         [f'check_urdf "{urdf_path}" > /dev/null'],
         stdout=subprocess.PIPE,
