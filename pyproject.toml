@@ -12,9 +12,6 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-scipy = "^1.7.0"
-numpy = "1.22.3"
-
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
