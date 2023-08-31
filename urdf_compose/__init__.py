@@ -1,6 +1,6 @@
 from urdf_compose.compose import (
-    URDFObjOrError,
     URDFObjChild,
+    URDFObjOrError,
     branch,
     raise_if_compose_error,
     sequence,
@@ -14,7 +14,7 @@ from urdf_compose.composed_urdf import (
     URDFConn,
 )
 from urdf_compose.urdf_compose_error import URDFComposeError
-from urdf_compose.urdf_obj import ExplicitURDFObj, URDFObj, CheckURDFFailure
+from urdf_compose.urdf_obj import CheckURDFFailure, ExplicitURDFObj, URDFObj
 
 __version__ = "0.2.1"
 

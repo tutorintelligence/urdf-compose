@@ -20,7 +20,7 @@ class TestURDFCompose:
                 *[(extender_urdf, URDFConn("vgc10_extender_stick")) for _ in range(num_extenders - 1)],
             )
         )
-        assert write_and_check_urdf(connected_urdf, output) is None
+        write_and_check_urdf(connected_urdf, output)
 
     def test_urdf2(self) -> None:
         dir = Path(__file__).parent

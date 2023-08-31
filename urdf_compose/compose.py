@@ -1,5 +1,3 @@
-import copy
-import xml.etree.ElementTree as ET
 from collections.abc import Iterable
 from pathlib import Path
 from typing import TypeAlias, TypeVar
@@ -9,7 +7,6 @@ from urdf_compose.connect import connect
 from urdf_compose.resolve_connections import URDFDefConn, resolve_conn
 from urdf_compose.urdf_compose_error import URDFComposeError
 from urdf_compose.urdf_obj import CheckURDFFailure, URDFObj, check_urdf  # noqa
-from urdf_compose.utils import get_name
 
 
 def general_urdf_append(
