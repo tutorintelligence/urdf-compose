@@ -2,6 +2,17 @@
 
 
 
+## v0.3.1 (2023-08-31)
+
+### Fix
+
+* fix: check urdf use correctly (#7) ([`a5481b7`](https://github.com/tutorintelligence/urdf-compose/commit/a5481b7ede06575fcfb03a54b94aa418d9c2f2a8))
+
+### Unknown
+
+* Update README.md ([`b3b83b7`](https://github.com/tutorintelligence/urdf-compose/commit/b3b83b7d211819c0aa9220b6e54444dada2afe07))
+
+
 ## v0.3.0 (2023-08-31)
 
 ### Chore
