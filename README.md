@@ -20,7 +20,8 @@ Other Operating Systems: https://command-not-found.com/check_urdf
 
 If you can't install `check-urdf`, you must disable it in urdf compose using `globally_disable_check_urdf`
 
-## Usage
+
+## Examples
 
 ### Simple Rod Example
 
