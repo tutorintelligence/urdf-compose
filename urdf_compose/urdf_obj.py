@@ -63,7 +63,7 @@ def check_urdf(urdf_path: Path) -> CheckURDFFailure | None:
 
 class URDFObj:
     """
-    Represents a single urdf. Is mostly a thin wrapper over an ET.ElementTree
+    Represents a single urdf
     """
 
     def __init__(self, tree: ET.ElementTree):

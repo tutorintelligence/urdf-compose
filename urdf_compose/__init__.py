@@ -1,9 +1,8 @@
 from urdf_compose.compose import (
-    GenURDFTree,
-    TreeChild,
     URDFObjChild,
-    URDFTree,
+    URDFObjOrError,
     branch,
+    raise_if_compose_error,
     sequence,
     write_and_check_urdf,
 )
@@ -15,24 +14,24 @@ from urdf_compose.composed_urdf import (
     URDFConn,
 )
 from urdf_compose.urdf_compose_error import URDFComposeError
-from urdf_compose.urdf_obj import ExplicitURDFObj, URDFObj
+from urdf_compose.urdf_obj import CheckURDFFailure, ExplicitURDFObj, URDFObj
 
 __version__ = "0.2.1"
 
 __all__ = [
     "URDFObj",
+    "URDFObjOrError",
     "ExplicitURDFObj",
-    "URDFTree",
-    "GenURDFTree",
     "URDFConn",
     "branch",
     "sequence",
     "ComposedURDFObj",
     "ComposedURDFNameMap",
-    "TreeChild",
     "URDFObjChild",
     "URDFComposeError",
     "RepeatedURDFError",
     "UnaccountedForURDFError",
+    "CheckURDFFailure",
     "write_and_check_urdf",
+    "raise_if_compose_error",
 ]

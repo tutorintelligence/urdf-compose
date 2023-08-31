@@ -20,11 +20,7 @@
             </geometry>
         </collision>
     </link>
-    <link name="CONNECTED:OUTPUT-vgc10_extender_stick"><inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0" />
-        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
-    </inertial></link>
+    <link name="CONNECTED:OUTPUT-vgc10_extender_stick" />
     <joint name="vgc10_extender_stick_joint" type="fixed">
         <origin xyz="0 0 0.05" rpy="0 0 0" />
         <parent link="INPUT-extender_stick" />
@@ -59,11 +55,7 @@
             </geometry>
         </collision>
     </link>
-    <link name="CONNECTED:OUTPUT-vgc10_extender_stick(1)"><inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0" />
-        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
-    </inertial></link>
+    <link name="CONNECTED:OUTPUT-vgc10_extender_stick(1)" />
     <joint name="vgc10_extender_stick_joint(2)" type="fixed">
         <origin xyz="0 0 0.05" rpy="0 0 0" />
         <parent link="CONNECTED:INPUT-extender_stick(1)" />
@@ -95,11 +87,7 @@
             </geometry>
         </collision>
     </link>
-    <link name="OUTPUT-vgc10_extender_stick"><inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0" />
-        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
-    </inertial></link>
+    <link name="OUTPUT-vgc10_extender_stick" />
     <joint name="vgc10_extender_stick_joint(1)" type="fixed">
         <origin xyz="0 0 0.05" rpy="0 0 0" />
         <parent link="CONNECTED:INPUT-extender_stick" />
