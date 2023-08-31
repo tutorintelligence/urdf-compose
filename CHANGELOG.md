@@ -2,6 +2,13 @@
 
 
 
+## v0.3.3 (2023-08-31)
+
+### Fix
+
+* fix: dont add materials randomly (#9) ([`ff5bbb1`](https://github.com/tutorintelligence/urdf-compose/commit/ff5bbb1a4cd8ed567fa260bc916742e425aa1cbc))
+
+
 ## v0.3.2 (2023-08-31)
 
 ### Fix
