@@ -14,7 +14,13 @@ from urdf_compose.composed_urdf import (
     URDFConn,
 )
 from urdf_compose.urdf_compose_error import URDFComposeError
-from urdf_compose.urdf_obj import CheckURDFFailure, ExplicitURDFObj, URDFObj
+from urdf_compose.urdf_obj import (
+    CheckURDFFailure,
+    ExplicitURDFObj,
+    URDFObj,
+    globally_disable_check_urdf,
+    globally_enable_check_urdf,
+)
 
 __version__ = "0.3.0"
 
@@ -34,4 +40,6 @@ __all__ = [
     "CheckURDFFailure",
     "write_and_check_urdf",
     "raise_if_compose_error",
+    "globally_disable_check_urdf",
+    "globally_enable_check_urdf",
 ]

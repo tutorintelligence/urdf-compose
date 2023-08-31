@@ -8,8 +8,15 @@ This package provides another solution by allowing one to dynamically compose ur
 
 ## Installation 
 
-Install with: 
-```pip install urdf-compose```
+Install urdf-compose: ```pip install urdf-compose```
+
+It is also recommended to install check-urdf.
+
+For Ubuntu: `sudo apt-get install liburdfdom-tools`
+For Mac: `brew install urdfdom`
+Other Operating Systems: https://command-not-found.com/check_urdf 
+
+If you can't install `check-urdf`, you must disable it in urdf compoe using `globally_disable_check_urdf`
 
 ## Usage
 
