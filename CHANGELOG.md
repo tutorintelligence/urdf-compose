@@ -2,6 +2,13 @@
 
 
 
+## v0.3.4 (2023-08-31)
+
+### Fix
+
+* fix: strip dependencies (#10) ([`1b61a82`](https://github.com/tutorintelligence/urdf-compose/commit/1b61a820464b1246f8a530062cce4c00bbecaf43))
+
+
 ## v0.3.3 (2023-08-31)
 
 ### Fix
