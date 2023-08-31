@@ -143,7 +143,7 @@ class ExplicitURDFObj(URDFObj):
     """
 
     def __init__(self, path: Path, check: bool = True):
-        self.path = path
+        self.path = Path(path)
         if not self.path.exists():
             raise RuntimeError(f"Attempted to create URDFObj from non-existent file {self.path}")
 
