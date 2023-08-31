@@ -16,7 +16,7 @@ from urdf_compose.composed_urdf import (
 from urdf_compose.urdf_compose_error import URDFComposeError
 from urdf_compose.urdf_obj import CheckURDFFailure, ExplicitURDFObj, URDFObj
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 __all__ = [
     "URDFObj",
