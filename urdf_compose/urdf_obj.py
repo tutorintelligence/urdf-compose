@@ -1,9 +1,7 @@
-import copy
 import os
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from uuid import uuid1
 
 from urdf_compose.xml_utils import elements_equal
 
