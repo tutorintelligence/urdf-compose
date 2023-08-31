@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot name="vgc10_extender_stick">
+    <material name="Silver">
+        <color rgba="0.753 0.753 0.753 1.0" />
+    </material>
     <link name="INPUT-extender_stick-2">
         <inertial>
             <origin xyz="-1.14523654741374E-09 -2.79672501268441E-08 0.0228788479998501" rpy="0 0 0" />
