@@ -20,6 +20,67 @@ Other Operating Systems: https://command-not-found.com/check_urdf
 
 If you can't install `check-urdf`, you must disable it in urdf compose using `globally_disable_check_urdf`
 
+## Usage
+
+### Simple Usage
+
+The first step to use URDF Compose is to mark the input and output links on the URDFs of the components that will make up your robot. Simply stick “INPUT:” or “OUTPUT:” at the start of the names of the links you want to mark. Note that upper case means its the default link–if you need multiple inputs or outputs, use lower cases. You can find the examples [here](https://github.com/tutorintelligence/urdf-compose#simple-rod-example).
+
+Once you have your urdfs, the protocol for connecting them is very simple.
+```python
+from urdf_compose import ExplicitURDFObj, sequence
+urdf1 = ExplicitURDFObj(PATH_TO_SOME_URDF1)
+urdf2 = ExplicitURDFObj(PATH_TO_SOME_URDF2)
+very_simple_connected_urdf = sequence(urdf1, urdf2)
+```
+The above example will connect an output link on urdf1 to an input link on urdf2.
+
+You can also use `branch` if you want to connect many urdfs to the same base urdf. So if you have three urdfs you could connect them with `sequence` that would connect the third urdf to the second urdf, and the second urdf to the first urdf. Or you could use `branch`, which would connect both the second and third urdf to the first urdf:
+```python
+from urdf_compose import ExplicitURDFObj, sequence
+urdf3 = ExplicitURDFObj(PATH_TO_SOME_URDF3)
+triple_sequence = sequence(urdf1, [urdf2, urdf3])
+triple_branch = branch(urdf1, [urdf2, urdf3])
+```
+
+You can then use the output of `sequence` or `branch` just like any other urdf. So one could do:
+```python
+big_sequence = sequence(triple_sequence, triple_branch)
+```
+
+### Verification and Error Handling
+
+Dealing with URDFs is a pain. A major benefit of moving the composition of urdfs to code is it allows better and more systematic error checking.
+
+Firstly, when you instantiate an `ExplicitURDFObj`, it will immediately run `check_urdf` on the given file. `check_urdf` is provided by urdf dom tools, and will give a very helpful debugging message if for whatever reason your URDF isn’t valid. Automatically checking the component urdfs provides a major source of robustness, as finding issues in the much larger final composed urdf is much harder.
+
+Both `sequence` and `branch` may return a `URDFComposeError` instead of a new urdf object. The error means that, usually because there were no correctly marked links, it couldn’t combine the urdfs it was given. The `URDFComposeError` like most errors has a message, but it also has a `save_to` method. This takes a directory to write the two urdfs that couldn’t be connected to. Without being able to see the offending urdfs, that themselves are likely composed and hence don’t exist somewhere else, any issues at the connection step would be opaque.
+
+Note that if `sequence` or `branch` are passed a `URDFComposeError`, rather than performing the operation, it will simply return the exception. This allows you to pass the output of a `sequence` or `branch` call to another, so you only have to handle the error once you want to actually use the urdf.
+
+When you want to save a urdf to a file, you should first handle the error. Say you want to save the `big_sequence` we defined earlier, you can:
+
+```python
+from urdf_compose import write_and_check_urdf, raise_if_compose_error
+# Note: if you don’t want to get the debugging info, you can simply not pass the directory argument to `raise_if_compose_error`
+big_sequence = raise_if_compose_error(big_sequence, SAVE_DIRECTORY)
+write_and_check_urdf(big_sequence, SAVE_DIRECTORY / SAVE_FILE_NAME)
+```
+
+Here, the second argument to `raise_if_compose_error` will be used as the directory for `URDFComposeError.save_to` if the value is an error and not a urdf. And finally, `write_and_check_urdf` will call `check_urdf` one more time.
+
+### Name Collisions
+
+During composition, urdf compose has to rename links and joints if there are name collisions between two urdfs. It also needs to rename input and output links when they are connected to show that they can't be used anymore.
+
+So that you don't have to think about what this naming scheme is, the `ComposedURDFObj` returned by `sequence` and `branch` has a `ComposedURDFNameMap` which allows you to look up what the new name of a link or joint is.
+
+The following example shows how you can determine the new name of some link "A" from `urdf2` is in the `very_simple_connected_urdf` urdf
+ ```python
+name_map = very_simple_connected_urdf.name_map
+collapsed_name_map = name_map.collapse({urdf2})
+new_name = collapsed_name_map.lookup(urdf2, "A")
+``` 
 
 ## Examples
 
