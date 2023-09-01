@@ -48,6 +48,20 @@ You can then use the output of `sequence` or `branch` just like any other urdf. 
 big_sequence = sequence(triple_sequence, triple_branch)
 ```
 
+### Non-default Inputs or Outputs
+
+The following example shows how you can connect `urdf2` to `urdf1`, but rather than using the default output link on `urdf1`, you want to use a link "output:some_other_output":
+```python
+from urdf_compose import URDFConn
+non_default_connected_urdf = sequence(urdf1, (urdf2, URDFConn("some_other_output")))
+```
+
+If you wanted to also specify a different input link to use on `urdf2`, in this example "input:some_other_input"), you would do:
+```python
+from urdf_compose import URDFConn
+non_default_connected_urdf = sequence(urdf1, (urdf2, URDFConn("some_other_output", "some_other_input")))
+```
+
 ### Verification and Error Handling
 
 Dealing with URDFs is a pain. A major benefit of moving the composition of urdfs to code is it allows better and more systematic error checking.
