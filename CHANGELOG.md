@@ -2,6 +2,21 @@
 
 
 
+## v0.3.5 (2023-09-01)
+
+### Fix
+
+* fix: name map undescore methods that shouldn&#39;t be used (#11) ([`5b9876b`](https://github.com/tutorintelligence/urdf-compose/commit/5b9876b25fba165ab228674a5e06e61d3c49a522))
+
+### Unknown
+
+* Update README.md ([`c495ea1`](https://github.com/tutorintelligence/urdf-compose/commit/c495ea1e38ab3d256198173d664ccc2e32f2e830))
+
+* Update README.md ([`f69496f`](https://github.com/tutorintelligence/urdf-compose/commit/f69496fbc0b4601006136d8ca76de6c2efec1545))
+
+* Update README.md ([`7b9096e`](https://github.com/tutorintelligence/urdf-compose/commit/7b9096ec9f6ef9fb23c17350be68b775379ee193))
+
+
 ## v0.3.4 (2023-08-31)
 
 ### Fix
