@@ -67,7 +67,7 @@ class ComposedURDFNameMap:
             name_to_urdf_and_og_name=name_to_urdf_and_og_name,
         )
 
-    def incorporate(self, other_map: Self) -> None:
+    def _incorporate(self, other_map: Self) -> None:
         overlapping_names = set(self.name_to_urdf_and_og_name.keys()).intersection(
             other_map.name_to_urdf_and_og_name.keys()
         )
@@ -85,13 +85,13 @@ class ComposedURDFNameMap:
         self.name_map_lookup.update(other_map.name_map_lookup)
         self.name_to_urdf_and_og_name.update(other_map.name_to_urdf_and_og_name)
 
-    def rename(self, name: str, new_name: str) -> None:
+    def _rename(self, name: str, new_name: str) -> None:
         explicit_urdf, og_name = self.name_to_urdf_and_og_name[name]
         self.name_map_lookup[explicit_urdf][og_name] = new_name
         self.name_to_urdf_and_og_name[new_name] = (explicit_urdf, og_name)
         del self.name_to_urdf_and_og_name[name]
 
-    def remove(self, name: str) -> None:
+    def _remove(self, name: str) -> None:
         explicit_urdf, og_name = self.name_to_urdf_and_og_name[name]
         del self.name_to_urdf_and_og_name[name]
         name_map = self.name_map_lookup[explicit_urdf]
@@ -231,7 +231,7 @@ class ComposedURDFObj(URDFObj):
         name_dict = frozenset([NAME_KEY, "link"])
 
         for name, new_name in name_map.items():
-            self.name_map.rename(name, new_name)
+            self.name_map._rename(name, new_name)
 
         def rename_element(el: ET.Element) -> None:
             if has_name(el, name_dict) and (name := get_name(el, name_dict)) in name_map:
@@ -262,7 +262,7 @@ class ComposedURDFObj(URDFObj):
                     self.getroot().remove(extend_el)
                     name = get_name(extend_el)
                     if name is not None:
-                        self.name_map.remove(name)
+                        self.name_map._remove(name)
 
     def copy(self) -> ComposedURDFObj:
         return ComposedURDFObj(copy.deepcopy(self.tree), self.name_map.copy())
@@ -270,7 +270,7 @@ class ComposedURDFObj(URDFObj):
     def concatenate(self, obj: Self) -> None:
         obj_copy = obj.copy()
         obj_copy.outlaw_duplicates_with(self)
-        self.name_map.incorporate(obj_copy.name_map)
+        self.name_map._incorporate(obj_copy.name_map)
         for el in obj_copy.getroot():
             self.getroot().append(el)
 
