@@ -2,6 +2,17 @@
 
 
 
+## v0.4.0 (2023-12-05)
+
+### Feature
+
+* feat: better logging/error messages (#12) ([`42a7eff`](https://github.com/tutorintelligence/urdf-compose/commit/42a7eff2a505d7355084e142396c9a1fec25ccb4))
+
+### Unknown
+
+* Create post.md ([`8c2e3f6`](https://github.com/tutorintelligence/urdf-compose/commit/8c2e3f65e9331e6ed53fbafa8310cce15ea4ffd7))
+
+
 ## v0.3.5 (2023-09-01)
 
 ### Fix
