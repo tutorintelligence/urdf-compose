@@ -15,7 +15,9 @@ def check_for_connection_issue(
     # verify that link and joint exist
     base_link = find_element_named(base_urdf, "link", conn.base_link)
     if base_link is None:
-        return f"Base link name unknown: {conn.base_link}"
+        return (
+            f"Unknown base link {conn.base_link}. Have {[el.attrib['name'] for el in base_urdf.tree.findall('link')]}"
+        )
     if len(base_link) > 0:
         return f"Found non-empty output link {conn.base_link}"
     # base_urdf.getroot().remove(base_link)
