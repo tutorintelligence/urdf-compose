@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot name="board">
+    <link name="INPUT-board">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="output-board-1"/>
+    <link name="output-board-2"/>
+    <link name="output-board-3"/>
+    <link name="output-board-4"/>
+    <joint name="joint-1" type="fixed">
+        <origin xyz="2 0 0" rpy="0 0 0" />
+        <parent link="INPUT-board" />
+        <child link="output-board-1" />
+        <axis xyz="0 0 0" />
+    </joint>
+    <joint name="joint-2" type="fixed">
+        <origin xyz="0 2 0" rpy="0 0 0" />
+        <parent link="INPUT-board" />
+        <child link="output-board-2" />
+        <axis xyz="0 0 0" />
+    </joint>
+    <joint name="joint-3" type="fixed">
+        <origin xyz="0 0 2" rpy="0 0 0" />
+        <parent link="INPUT-board" />
+        <child link="output-board-3" />
+        <axis xyz="0 0 0" />
+    </joint>
+    <joint name="joint-4" type="fixed">
+        <origin xyz="2 2 2" rpy="0 0 0" />
+        <parent link="INPUT-board" />
+        <child link="output-board-4" />
+        <axis xyz="0 0 0" />
+    </joint>
+</robot>

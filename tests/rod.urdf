@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="rod">
+    <link name="INPUT-rod">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1E-04" ixy="0" ixz="0" iyy="1E-04" iyz="0" izz="1E-05" />
+        </inertial>
+    </link>
+    <link name="OUTPUT-rod"/>
+    <joint name="joint" type="fixed">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <parent link="INPUT-rod" />
+        <child link="OUTPUT-rod" />
+        <axis xyz="0 0 0" />
+    </joint>
+</robot>
