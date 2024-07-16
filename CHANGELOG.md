@@ -2,6 +2,13 @@
 
 
 
+## v0.4.1 (2024-07-16)
+
+### Fix
+
+* fix: Fixed bug with composing multiple urdfs to specific positions (#13) ([`5d25bdb`](https://github.com/tutorintelligence/urdf-compose/commit/5d25bdbc5af2425fbac889eba2e3098dd65ff3ec))
+
+
 ## v0.4.0 (2023-12-05)
 
 ### Feature

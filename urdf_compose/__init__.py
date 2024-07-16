@@ -22,7 +22,7 @@ from urdf_compose.urdf_obj import (
     globally_enable_check_urdf,
 )
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 __all__ = [
     "URDFObj",
