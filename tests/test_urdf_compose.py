@@ -2,7 +2,6 @@ from pathlib import Path
 
 from urdf_compose import ExplicitURDFObj, URDFConn, branch, sequence
 from urdf_compose.compose import raise_if_compose_error, write_and_check_urdf
-from urdf_compose.urdf_obj import check_urdf
 
 
 class TestURDFCompose:
@@ -78,21 +77,29 @@ class TestURDFCompose:
 
     def test_can_branch_on_attaching_same_urdf_to_several_attachment_points(self) -> None:
         dir = Path(__file__).parent
-        composed_urdf = raise_if_compose_error(branch(
+        composed_urdf = raise_if_compose_error(
+            branch(
                 ExplicitURDFObj(dir / "board.urdf"),
-                [(ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-1")),
-                 (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-2")),
-                 (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-3"))]
-            ))
+                [
+                    (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-1")),
+                    (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-2")),
+                    (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-3")),
+                ],
+            )
+        )
         write_and_check_urdf(composed_urdf, dir / "testout/test10.urdf")
 
     def test_interleaving_attach_to_several_attachment_points(self) -> None:
         dir = Path(__file__).parent
-        composed_urdf = raise_if_compose_error(branch(
-            ExplicitURDFObj(dir / "board.urdf"),
-            [(ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-1")),
-             (ExplicitURDFObj(dir / "hoop.urdf"), URDFConn("board-2")),
-             (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-3")),
-             (ExplicitURDFObj(dir / "hoop.urdf"), URDFConn("board-4"))]
-        ))
+        composed_urdf = raise_if_compose_error(
+            branch(
+                ExplicitURDFObj(dir / "board.urdf"),
+                [
+                    (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-1")),
+                    (ExplicitURDFObj(dir / "hoop.urdf"), URDFConn("board-2")),
+                    (ExplicitURDFObj(dir / "rod.urdf"), URDFConn("board-3")),
+                    (ExplicitURDFObj(dir / "hoop.urdf"), URDFConn("board-4")),
+                ],
+            )
+        )
         write_and_check_urdf(composed_urdf, dir / "testout/test11.urdf")

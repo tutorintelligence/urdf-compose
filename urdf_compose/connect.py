@@ -73,7 +73,7 @@ def connect(
 
     extender_urdf.rename_elements({conn.extender_link: new_extender_link_name})
     base_urdf.rename_elements({conn.base_link: real_new_base_link_name})
-    base_urdf.concatenate(extender_urdf) #TODO Back propigate changes into extender map.
+    base_urdf.concatenate(extender_urdf)  # TODO Back propigate changes into extender map.
 
     real_connection_joint_name = first_available_from_urdf(base_urdf, connection_joint_name)
     real_extender_link_name = base_urdf.name_map.lookup(extender_urdf_, conn.extender_link)
